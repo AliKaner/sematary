@@ -46,7 +46,7 @@ function Panel({
         <img
           src={info.image}
           alt={info.title}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 group-hover:opacity-0"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
         />
         <video
           ref={videoRef}
