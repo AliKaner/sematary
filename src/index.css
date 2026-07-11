@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --color-bone: #d8d0c0;
+  --color-moss: #2e3d33;
+  --color-night: #0b0f0d;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-bone);
+  font-family: var(--font-serif);
+}
+
+/* Mum alevi animasyonu */
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.08) rotate(2deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(0.95) rotate(-1deg);
+    opacity: 0.95;
+  }
+  75% {
+    transform: scale(1.05) rotate(1deg);
+    opacity: 0.9;
+  }
+}
+
+.flame {
+  animation: flicker 1.6s infinite ease-in-out;
+  display: inline-block;
+}
+
+/* Yukarı süzülen gül/mum efekti */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.float-up {
+  animation: floatUp 1.2s ease-out forwards;
+  pointer-events: none;
+}
