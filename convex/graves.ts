@@ -23,6 +23,23 @@ export const page = query({
   },
 });
 
+export const count = query({
+  args: {
+    section: v.union(
+      v.literal("sehitler"),
+      v.literal("kadinlar"),
+      v.literal("genel"),
+    ),
+  },
+  handler: async (ctx, args) => {
+    const docs = await ctx.db
+      .query("graves")
+      .withIndex("by_section", (q) => q.eq("section", args.section))
+      .collect();
+    return docs.length;
+  },
+});
+
 export const listBySection = query({
   args: {
     section: v.union(

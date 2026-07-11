@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { usePaginatedQuery } from "convex/react";
+import { usePaginatedQuery, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { SECTIONS, type SectionKey } from "../sections";
 import GraveCard from "../components/GraveCard";
@@ -18,6 +18,7 @@ export default function Section() {
     info ? { section: key } : "skip",
     { initialNumItems: 48 },
   );
+  const total = useQuery(api.graves.count, info ? { section: key } : "skip");
 
   // Sayfa sonuna yaklaşınca sıradaki mezarları yükle
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -66,6 +67,11 @@ export default function Section() {
             {info.title}
           </h1>
           <p className="mt-3 max-w-xl text-bone/75 italic">{info.description}</p>
+          {total !== undefined && total > 0 && (
+            <p className="mt-4 text-sm tracking-[0.3em] text-bone/50 uppercase">
+              {total.toLocaleString("tr-TR")} anıt mezar
+            </p>
+          )}
         </div>
       </header>
 
@@ -98,10 +104,18 @@ export default function Section() {
               ))}
             </div>
             <div ref={sentinelRef} />
-            {status === "LoadingMore" && (
+            {status === "LoadingMore" ? (
               <p className="mt-10 text-center text-bone/50 italic">
                 Mezarlığın derinliklerine yürünüyor…
               </p>
+            ) : (
+              total !== undefined &&
+              graves.length < total && (
+                <p className="mt-10 text-center text-sm tracking-[0.2em] text-bone/40">
+                  {graves.length.toLocaleString("tr-TR")} /{" "}
+                  {total.toLocaleString("tr-TR")}
+                </p>
+              )
             )}
           </>
         )}
